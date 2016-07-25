@@ -1,0 +1,53 @@
+{
+    "project_type": "javascript",
+
+    "debugMode" : 1,
+    "showFPS" : true,
+    "frameRate" : 60,
+    "noCache" : true,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"frameworks/cocos2d-html5",
+
+    "modules" : ["cocos2d", "cocostudio", "spine"],
+
+    "jsList" : [
+        "src/config.js",
+        "src/global.js",
+
+        "src/lib/3rd_party/mt/mt.js",
+        "src/lib/3rd_party/CryptoJS/aes.js",
+        "src/lib/3rd_party/CryptoJS/pbkdf2.js",
+        "src/lib/3rd_party/MessagePack/msgpack.js",
+        "src/lib/utility.js",
+
+        "src/lib/predator/manager/model_manager.js",
+        "src/lib/predator/manager/scene_manager.js",
+        "src/lib/predator/manager/touch_manager.js",
+        "src/lib/predator/manager/display_manager.js",
+        "src/lib/predator/manager/data_manager.js",
+        "src/lib/predator/manager/network_manager.js",
+        "src/lib/predator/module/action_builder.js",
+        "src/lib/predator/module/messagebox.js",
+        "src/lib/predator/module/predator_view_template.js",
+        "src/lib/predator/module/predator_sprite.js",
+        "src/lib/predator/module/predator_animation.js",
+        "src/lib/predator/module/user_data.js",
+        "src/lib/predator/module/custom_action.js",
+        "src/lib/predator/predator.js",
+        "src/lib/predator/predator_helper.js",
+
+        "src/lib/model/task_pool.js",
+        "src/lib/view/sprite_studio.js",
+
+        "src/define.js",
+        "src/controller/native_binding.js",
+        "src/scene/boot_scene.js",
+
+
+        "src/debug/debug.js",
+        "src/lib/predator/editor/listbox.js",
+        "src/lib/predator/editor/file_manager.js",
+        "src/lib/predator/editor/edit_system.js"
+    ]
+}

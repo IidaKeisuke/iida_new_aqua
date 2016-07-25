@@ -1,0 +1,55 @@
+{
+  "chunk": {
+    "ID": "ModelData",
+    "type": "scene",
+    "title": "BOOT SCENE",
+    "url": "boot_scene.json",
+    "callLayer": "app.BootScene"
+  },
+  "preload": [],
+  "user": {
+    "show": true
+  },
+  "sprite": {
+    "show": true,
+    "background": {
+      "url": "logo.png",
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "anchor": {
+        "x": "center",
+        "y": "center"
+      },
+      "anchor_chr": {
+        "x": "center",
+        "y": "center"
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "flip": {
+        "x": false,
+        "y": false
+      },
+      "parent": "",
+      "show": true,
+      "awake": true,
+      "public": false,
+      "popup": {
+        "type": "NONE",
+        "time": 0.08
+      }
+    }
+  }
+}

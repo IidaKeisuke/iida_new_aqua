@@ -1,0 +1,61 @@
+# 
+# JSBindingの追加方法
+#
+
+（例）
+JS -> C++
+  JS内で native.hoge(“test”); と書いてC++にバインドしたい場合は
+    ・js_register_native_binding
+    ・js_native_binding_hoge
+C++ -> JS
+  C++からJSのnative.fuga(); を叩きたい
+    ・js_native_binding_fuga
+
+
+void js_register_native_binding(JSContext* cx, JS::HandleObject object) 
+{
+    JS::RootedObject native(cx, JS_NewObject(cx, NULL, JS::NullPtr(), JS::NullPtr()));
+    JS::RootedValue nativeVal(cx);
+    nativeVal = OBJECT_TO_JSVAL(native);
+    JS_SetProperty(cx, object, "native", nativeVal);
+
+    JS_DefineFunction(cx, native, “hoge”, js_native_binding_hoge, 1, JSPROP_READONLY | JSPROP_PERMANENT);
+}
+
+// JS -> C++
+bool js_native_binding_hoge(JSContext *cx, uint32_t argc, jsval *vp)
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    if (argc == 1) {
+        const char* arg0;
+        std::string arg0_tmp; 
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0_tmp); 
+        if (ok) {
+            arg0 = arg0_tmp.c_str();
+	    // C++制御
+	    // arg0に"hoge"が入っている
+        }
+    }
+#endif
+    return ok;
+}
+
+// C++ -> JS
+void js_native_binding_fuga()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    ScriptingCore* sc = ScriptingCore::getInstance();
+    if (sc) {
+        JSContext *cx = sc->getGlobalContext();
+        JSObject *globalObj = sc->getGlobalObject();
+        JS::RootedObject obj(cx, globalObj);
+        JS::Rooted<JS::Value> native(cx);
+        JS_GetProperty(cx, obj, "native", &native);
+        sc->executeFunctionWithOwner(native, “fuga”, 0, NULL);
+    }
+#endif
+    return;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "ccsjs-framework",
+  "version": "1.0.0",
+  "description": "Cocos2d-x JS ORATTA framework",
+  "author": "ORATTA",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "test": "node_modules/karma/bin/karma start"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "graceful-fs": "^4.1.3",
+    "karma": "^0.13.22",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "^0.5.3",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jenkins-reporter": "0.0.2",
+    "karma-mocha": "^0.2.2",
+    "karma-mocha-debug": "^0.1.2",
+    "karma-mocha-reporter": "^2.0.0",
+    "karma-opera-launcher": "^0.3.0",
+    "karma-read-json": "^1.1.0",
+    "karma-requirejs": "^0.2.5",
+    "karma-safari-launcher": "^0.1.1",
+    "karma-sinon": "^1.0.4",
+    "mocha": "^2.4.5",
+    "requirejs": "^2.1.22",
+    "sinon": "^1.17.3"
+  },
+  "dependencies": {}
+}

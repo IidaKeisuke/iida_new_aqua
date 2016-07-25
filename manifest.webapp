@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "name": "AppTemplate",
+  "description": "AppTemplate",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "/res/icon/icon-128.png",
+    "512": "/res/icon/icon-512.png"
+  },
+  "developer": {
+    "name": "ORATTA.Inc",
+    "url": "http://www.oratta.net"
+  },
+  "default_locale": "ja",
+  "installs_allowed_from": [
+    "*"
+  ],
+  "orientation": "portrait-primary",
+  "fullscreen": "true"
+}

@@ -1,0 +1,23 @@
+## 概要
+{説明文}
+http://redmine.oratta.net/issues/{チケット番号}
+
+{取り扱い上の指定等}
+
+https://github.com/oratta-inc/ccsjs_trump/pull/{プルリク番号}
+
+## TODO
+- [ ] 作業する内容の設計を行う。
+- [ ] 実際に実装する内容を記載する。
+- [ ] 実際に改修する内容を羅列する。
+- [ ] testcase実装
+
+--
+
+- [ ] 改修にあたって確認すべき点があれば記載する。
+
+## 経過
+- [ ] テスト
+- [ ] レビュー
+- [ ] develop反映
+- [ ] deploy

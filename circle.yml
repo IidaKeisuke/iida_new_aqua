@@ -1,0 +1,20 @@
+general:
+  branches:
+    only:
+      - develop
+  artifacts:
+    - "report"
+machine:
+  node:
+    version: 5.1.0
+checkout:
+  post:
+    - "rm -rf frameworks/cocos2d-html5"
+    - "rm -rf frameworks/cocos2d-x"
+    - "rm -rf src/lib"
+    - "git clone -b ${CIRCLE_BRANCH} git@github.com:oratta-inc/ccsjs-framework-html5.git /home/ubuntu/${CIRCLE_PROJECT_REPONAME}/frameworks/cocos2d-html5"
+    - "git clone -b ${CIRCLE_BRANCH} git@github.com:oratta-inc/ccsjs-framework-x.git /home/ubuntu/${CIRCLE_PROJECT_REPONAME}/frameworks/cocos2d-x"
+    - "git clone -b ${CIRCLE_BRANCH} git@github.com:oratta-inc/ccsjs-libs.git /home/ubuntu/${CIRCLE_PROJECT_REPONAME}/src/lib"
+dependencies:
+  pre:
+    - "npm install requirejs@~2.1"

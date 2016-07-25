@@ -1,0 +1,6 @@
+./icon/favicon.ico
+./icon/icon-128.png
+./icon/icon-512.png
+./image/logo.png
+./json/data_map.json
+./json/scene/boot_scene.json
