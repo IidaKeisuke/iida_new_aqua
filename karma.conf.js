@@ -35,12 +35,6 @@ module.exports = function(config) {
       '/src/': '/base/src/',
       '/res/': '/base/res/',
       '/frameworks/cocos2d-html5/': '/base/frameworks/cocos2d-html5/',
-      '/dummy.js': '/base/dummy.js',
-      '/main.js': '/base/main.js',
-      '/project.json': '/base/project.json',
-      '/src/': '/base/src/',
-      '/res/': '/base/res/',
-      '/frameworks/cocos2d-html5/': '/base/frameworks/cocos2d-html5/',
     },
 
 
@@ -59,7 +53,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage', 'jenkins'],
+    reporters: ['mocha', 'coverage'],
 
 
     mochaReporter: {

@@ -21,6 +21,9 @@
         "src/lib/3rd_party/MessagePack/msgpack.js",
         "src/lib/utility.js",
 
+        "src/lib/predator/module/predator_node.js",
+        "src/lib/predator/module/predator_sprite.js",
+        "src/lib/predator/module/predator_animation.js",
         "src/lib/predator/manager/model_manager.js",
         "src/lib/predator/manager/scene_manager.js",
         "src/lib/predator/manager/touch_manager.js",
@@ -30,10 +33,10 @@
         "src/lib/predator/module/action_builder.js",
         "src/lib/predator/module/messagebox.js",
         "src/lib/predator/module/predator_view_template.js",
-        "src/lib/predator/module/predator_sprite.js",
-        "src/lib/predator/module/predator_animation.js",
+        "src/lib/predator/module/custom_shader.js",
         "src/lib/predator/module/user_data.js",
         "src/lib/predator/module/custom_action.js",
+        "src/lib/predator/module/shader_file.js",
         "src/lib/predator/predator.js",
         "src/lib/predator/predator_helper.js",
 
