@@ -1,0 +1,52 @@
+{
+  "chunk": {
+    "ID": "ModelData",
+    "type": "window",
+    "url": "mess_object.json"
+  },
+  "layer": {},
+  "label": {
+    "show": true,
+    "LABEL_MESSAGE": {
+      "string": "ああああああああああああああああ",
+      "font": "Arial",
+      "fontsize": 30,
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 255
+      },
+      "anchor": {
+        "x": "center",
+        "y": "center"
+      },
+      "anchor_chr": {
+        "x": "left",
+        "y": "center"
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "parent": "",
+      "show": true,
+      "awake": true,
+      "public": false,
+      "popup": {
+        "type": "NONE",
+        "time": 0.08
+      },
+      "action": [],
+      "touch": {
+        "control": []
+      }
+    }
+  }
+}

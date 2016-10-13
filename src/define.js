@@ -49,12 +49,10 @@ app.ZORDER = {
     DIALOG: 1000
 };
 
+/**
+ * レイヤーオーダー一覧
+ */
 app.LAYER_ORDER = {
     PANEL: 21,
     ADV: 22
-};
-
-app.PlayerData = function () {
-    this.id = 0;
-    this.name = "";
 };

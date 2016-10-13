@@ -2,6 +2,8 @@
 ./icon/icon-128.png
 ./icon/icon-512.png
 ./image/logo.png
+./json/adv/mess_object.json
+./json/adv/mess_window.json
+./json/adv/message_box.json
 ./json/data_map.json
 ./json/scene/boot_scene.json
-./json/test.json

@@ -31,8 +31,6 @@ app.BootScene = app.Scene.extend(/** @lends app.BootScene# */{
         if (!this._super()) return false;
         cc.log("BootSceneの初期化");
 
-        var k = Date.now();
-
         return true;
     },
 

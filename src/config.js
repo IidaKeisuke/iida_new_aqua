@@ -28,9 +28,9 @@ app.HEIGHT      = 640;
 
 app.isDebug     = true;
 
-app.API_URL     = "https://hoge-dev.oratta.net/hoge";
+app.API_URL     = "https://tech.oratta.net/hoge";
 app.SERVER_NAME = "develop";
-app.FRONT_PHP   = "pc_dev.php";
+app.FRONT_PHP   = "dmm_pc_dev.php";
 
 app.defaultFont     = "Arial";
-app.defaultFontSize = 40;
+app.defaultFontSize = 20;
