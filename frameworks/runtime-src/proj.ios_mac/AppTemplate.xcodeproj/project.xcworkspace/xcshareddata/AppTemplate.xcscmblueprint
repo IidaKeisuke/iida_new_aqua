@@ -1,20 +1,35 @@
 {
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "1BD2253E72CABC293CC233BAA957D803F0831D56",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "837D2427CCC781E0C25939118985FED00B982E3A" : 0,
-    "F6D4E3F17CF7169C1ED208C234FF6C46405C6E1B" : 0
+    "8342902778A9F56118EC775FCDC011C34BC52F69" : 9223372036854775807,
+    "F6D4E3F17CF7169C1ED208C234FF6C46405C6E1B" : 0,
+    "1BD2253E72CABC293CC233BAA957D803F0831D56" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "01BACF30-D9E3-4558-82AC-E4679636FC79",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "837D2427CCC781E0C25939118985FED00B982E3A" : "..\/lib",
-    "F6D4E3F17CF7169C1ED208C234FF6C46405C6E1B" : ".."
+    "8342902778A9F56118EC775FCDC011C34BC52F69" : "..\/frameworks\/cocos2d-x",
+    "F6D4E3F17CF7169C1ED208C234FF6C46405C6E1B" : "..",
+    "1BD2253E72CABC293CC233BAA957D803F0831D56" : "template\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "AppTemplate",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "frameworks\/runtime-src\/proj.ios_mac\/AppTemplate.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:oratta-inc\/oratta-inc-ccsjs-sample.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1BD2253E72CABC293CC233BAA957D803F0831D56"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:oratta-inc\/ccsjs-framework-x.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8342902778A9F56118EC775FCDC011C34BC52F69"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:oratta-inc\/ccsjs-libs.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",

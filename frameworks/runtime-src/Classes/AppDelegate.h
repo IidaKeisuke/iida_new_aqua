@@ -28,19 +28,19 @@ public:
      @return true    Initialize success, app continue.
      @return false   Initialize failed, app terminate.
      */
-    virtual bool applicationDidFinishLaunching();
+    virtual bool applicationDidFinishLaunching() override;
     
     /**
      @brief  Called when the application moves to the background
      @param  the pointer of the application
      */
-    virtual void applicationDidEnterBackground();
+    virtual void applicationDidEnterBackground() override;
     
     /**
      @brief  Called when the application reenters the foreground
      @param  the pointer of the application
      */
-    virtual void applicationWillEnterForeground();
+    virtual void applicationWillEnterForeground() override;
 };
 
 #endif // _APP_DELEGATE_H_

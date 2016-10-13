@@ -9,7 +9,7 @@
     "renderMode" : 0,
     "engineDir":"frameworks/cocos2d-html5",
 
-    "modules" : ["cocos2d", "cocostudio", "spine"],
+    "modules" : ["cocos2d", "extensions"],
 
     "jsList" : [
         "src/config.js",
@@ -20,6 +20,10 @@
         "src/lib/3rd_party/CryptoJS/pbkdf2.js",
         "src/lib/3rd_party/MessagePack/msgpack.js",
         "src/lib/utility.js",
+
+        "src/lib/model/color.js",
+        "src/lib/model/task_pool.js",
+        "src/lib/view/sprite_studio.js",
 
         "src/lib/predator/module/predator_node.js",
         "src/lib/predator/module/predator_sprite.js",
@@ -37,14 +41,33 @@
         "src/lib/predator/module/user_data.js",
         "src/lib/predator/module/custom_action.js",
         "src/lib/predator/module/shader_file.js",
+
         "src/lib/predator/predator.js",
         "src/lib/predator/predator_helper.js",
 
-        "src/lib/model/task_pool.js",
-        "src/lib/view/sprite_studio.js",
-
         "src/define.js",
+        "src/model/constructor.js",
+        "src/controller/view_setting.js",
+        "src/controller/api_manager.js",
         "src/controller/native_binding.js",
+        "src/view/abstract/scene.js",
+        "src/view/abstract/panel.js",
+        "src/view/abstract/adventure.js",
+        "src/view/abstract/tutorial.js",
+        "src/view/abstract/scroll_view.js",
+        "src/view/abstract/item_list.js",
+        "src/view/abstract/drop_list.js",
+        "src/view/abstract/button.js",
+        "src/view/abstract/dialog.js",
+        "src/view/abstract/slider.js",
+        "src/view/abstract/gauge.js",
+        "src/view/abstract/pager.js",
+        "src/view/abstract/countup.js",
+        "src/view/abstract/text_box.js",
+        "src/view/abstract/radio_box.js",
+        "src/view/abstract/check_box.js",
+
+
         "src/scene/boot_scene.js",
 
 

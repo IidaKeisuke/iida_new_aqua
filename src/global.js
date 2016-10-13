@@ -20,20 +20,22 @@ var global = function () {
  */
 var ora = ora || {};
 
-ora.model = ora.model || {};
-ora.view = ora.view || {};
-ora.ctrl = ora.ctrl || {};
-ora.ui = ora.ui || {};
-
-ora.lib = ora.lib || {};
-ora.util = ora.util || {};
-
-ora.scene = ora.scene || {};
-ora.window = ora.window || {};
-
-ora.shader = ora.shader || {};
-
 /**
  * GETパラメータ（debug用）
  */
 var $_GET = {};
+
+if (cc.sys.isNative) {
+    var navigator = null;
+    var location = null;
+}
+
+/**
+ * debug専用function
+ */
+app.log = app.log || function () {};
+app.warn = app.warn || function () {};
+app.error = app.error || function () {};
+app.assert = app.assert || function () {};
+app.postMessageForSlack = app.postMessageForSlack || function () {};
+app.postAPIErrorForSlack = app.postAPIErrorForSlack || function () {};

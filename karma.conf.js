@@ -19,7 +19,6 @@ module.exports = function(config) {
       { pattern: 'dummy.js', included: false},
 
       'karma/test-main.js',
-      'karma/test-utility.js',
       { pattern: 'src/**/*.js', included: false, watched: true},
       { pattern: 'res/**/*', included: false, watched: false},
       { pattern: 'frameworks/cocos2d-html5/**/*', included: false, watched: false},

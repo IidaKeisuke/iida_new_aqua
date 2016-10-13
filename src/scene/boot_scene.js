@@ -14,9 +14,9 @@ var app = app || {};
  * BootSceneクラス
  * @class
  * @name app.BootScene
- * @extends predator.SceneTemplate
+ * @extends app.Scene
  */
-app.BootScene = predator.SceneTemplate.extend(/** @lends app.BootScene# */{
+app.BootScene = app.Scene.extend(/** @lends app.BootScene# */{
     _className: "BootScene",
     
     // コンストラクター
@@ -31,6 +31,8 @@ app.BootScene = predator.SceneTemplate.extend(/** @lends app.BootScene# */{
         if (!this._super()) return false;
         cc.log("BootSceneの初期化");
 
+        var k = Date.now();
+
         return true;
     },
 
@@ -42,8 +44,8 @@ app.BootScene = predator.SceneTemplate.extend(/** @lends app.BootScene# */{
 
     // ゲームループ
     update: function (delta) {
-        if (!this._super(delta)) return;
         try {
+            if (!this._super(delta)) return;
         } catch (e) {
             cc.warn("exception(BootScene.update):" + e);
         }
