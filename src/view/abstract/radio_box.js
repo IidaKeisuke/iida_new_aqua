@@ -20,8 +20,6 @@ var app = app || {};
 app.RadioBox = predator.ViewTemplate.extend(/** @lends app.RadioBox# */{
     _className: "RadioBox",
 
-    _flag: false,
-
     /*
      *  イベント処理
      */
@@ -30,13 +28,14 @@ app.RadioBox = predator.ViewTemplate.extend(/** @lends app.RadioBox# */{
      * ボタンがタップされた時の挙動
      * @param $obj
      */
-    onChangeFlag: function ($obj) {
+    onTapRadioBox: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.CheckBox);
-        if (!view || view.isLocked() || !view.isEnable()) return;
+        if (!view || view.isLocked() || !view.isEnabled()) return;
 
         view.lock();
-        view.onChangeFlag_();
-        if (view.delegate && view.delegate.onChangeFlag) view.delegate.onChangeFlag(view);
+        view.toggle();
+        view.onTapRadioBox_();
+        if (view.delegate && view.delegate.onTapRadioBox) view.delegate.onTapRadioBox(view);
         view.unlock();
     },
 
@@ -48,5 +47,6 @@ app.RadioBox = predator.ViewTemplate.extend(/** @lends app.RadioBox# */{
      * フラグが変更された時の挙動（インナー）
      * @protected
      */
-    onChangeFlag_: function () {}
+    onTapRadioBox_: function () {}
+
 });

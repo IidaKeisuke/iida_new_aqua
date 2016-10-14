@@ -46,6 +46,7 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
      */
     initialize: function () {
         if (!this._super()) return false;
+        if (this._isAlreadyDispose) return false;
         cc.log("Sceneの初期化");
 
         predator.addViewLayer("PANEL", app.LAYER_ORDER["PANEL"]);
@@ -67,6 +68,8 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
      */
     dispose: function () {
         cc.log("Sceneの破棄");
+
+        this._isAlreadyDispose = true;
 
         this.endScenario();
         this.removeAllPanel();
@@ -113,11 +116,30 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
     },
 
     /**
-     * シーンのタッチの有効/無効処理
+     * 強制タッチ有効/無効
      * @param $flag
      */
     setTouchEnabled: function ($flag) {
+        if (this._touchFlag == $flag) return;
 
+        var flag = $flag;
+        this._touchFlag = flag;
+
+        var root = predator.getCurrentScene();
+
+        ora.executeFunctionForAllChildren(root, function (node) {
+            if (flag) {
+                if (node.kill) {
+                    node.kill = false;
+                    predator.resumeTouchEvent(node);
+                }
+            } else {
+                if (predator.isTouchEnabled(node)) {
+                    node.kill = true;
+                    predator.stopTouchEvent(node);
+                }
+            }
+        });
     },
 
     /**
@@ -237,9 +259,11 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
         if (this._adv) return;
         this.lock();
 
-        this._adv = ($isTutorial)? app.createTutorial($script): app.createAdventure($script);
+        this.setTouchEnabled(false);
+        this._adv = ($isTutorial)? app.createTutorialPanel($script): app.createAdventurePanel($script);
         var frontLayer = predator.getViewLayer("ADV");
         frontLayer.addChild(this._adv);
+        this._adv.runScript();
     },
 
     /**
@@ -247,9 +271,11 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
      */
     endScenario: function () {
         if (!this._adv) return;
+        this._adv.exitScript();
         this._adv.removeFromParent(true);
         this._adv = null;
 
+        this.setTouchEnabled(true);
         this.unlock();
     }
 });

@@ -15,7 +15,7 @@
   "sprite": {
     "show": true,
     "frm_message": {
-      "url": "adv_message_bg.png",
+      "url": "",
       "color": {
         "r": 255,
         "g": 255,
@@ -80,7 +80,7 @@
       "action": []
     },
     "spr_arrow": {
-      "url": "arrow.png",
+      "url": "",
       "color": {
         "r": 255,
         "g": 255,
@@ -167,7 +167,7 @@
       ]
     },
     "frm_name": {
-      "url": "name_window.png",
+      "url": "",
       "color": {
         "r": 255,
         "g": 255,
@@ -223,7 +223,7 @@
       }
     },
     "btn_skip": {
-      "url": "mini_window.png",
+      "url": "",
       "color": {
         "r": 255,
         "g": 255,
@@ -304,7 +304,7 @@
               }
             },
             {
-              "callfunc": "aqua.AdventurePanel.onTapSkipButton"
+              "callfunc": "app.AdventurePanel.onTapSkipButton"
             },
             {
               "scale": {
@@ -324,7 +324,7 @@
       ]
     },
     "btn_auto": {
-      "url": "mini_window.png",
+      "url": "",
       "color": {
         "r": 255,
         "g": 255,
@@ -405,7 +405,7 @@
               }
             },
             {
-              "callfunc": "aqua.AdventurePanel.onTapAutoButton"
+              "callfunc": "app.AdventurePanel.onTapAutoButton"
             },
             {
               "scale": {
@@ -425,7 +425,7 @@
       ]
     },
     "btn_log": {
-      "url": "mini_window.png",
+      "url": "",
       "color": {
         "r": 255,
         "g": 255,
@@ -506,7 +506,7 @@
               }
             },
             {
-              "callfunc": "aqua.AdventurePanel.onTapLogButton"
+              "callfunc": "app.AdventurePanel.onTapLogButton"
             },
             {
               "scale": {

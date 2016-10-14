@@ -31,8 +31,11 @@ app.Slider = predator.ViewTemplate.extend(/** @lends app.Slider# */{
      * @param $value
      */
     setValue: function ($value) {
+        if (this._value == $value) return;
+        
         this._value = ora.clamp($value,0,100);
         this.setDirty(true);
+        this.didChangeValue(this);
     },
 
     /**
@@ -51,13 +54,13 @@ app.Slider = predator.ViewTemplate.extend(/** @lends app.Slider# */{
      * 値が変更された時の挙動
      * @param $obj
      */
-    onChangeValue: function ($obj) {
+    didChangeValue: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Slider);
         if (!view || view.isLocked()) return;
 
         view.lock();
-        view.onChangeValue_();
-        if (view.delegate && view.delegate.onChangeValue) view.delegate.onChangeValue(view);
+        view.didChangeValue_();
+        if (view.delegate && view.delegate.didChangeValue) view.delegate.didChangeValue(view);
         view.unlock();
     },
 
@@ -69,5 +72,5 @@ app.Slider = predator.ViewTemplate.extend(/** @lends app.Slider# */{
      * 値が変更された時の挙動（インナー）
      * @protected
      */
-    onChangeValue_: function () {}
+    didChangeValue_: function () {}
 });

@@ -15,7 +15,9 @@ var app = app || {};
  */
 app.DialogType = {
     OK: 0,
-    OK_NG: 1
+    OK_NG: 1,
+    ERROR: 2,
+    INTERRUPT: 3
 };
 
 /**

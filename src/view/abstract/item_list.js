@@ -20,34 +20,98 @@ var app = app || {};
 app.ItemList = predator.ViewTemplate.extend(/** @lends app.ItemList# */{
     _className: "ItemList",
 
-    _json: "",
-    _preload: [],
+    _itemList: null,
+
+    _itemWidth: 1,
+    _itemHeight: 5,
+
+    /*
+     *  制御処理
+     */
 
     /**
-     * 初期化処理
-     * @param {Object|null} attr
-     * @param {Object} model
+     * アイテムの追加
+     * @param $item
      */
-    initialize: function (attr, model) {
-        this._super(attr, model);
-
+    addItem: function ($item) {
+        $item.setTag(this._itemList.length);
+        $item.retain();
+        this._itemList.push($item);
     },
 
     /**
-     * 破棄処理
+     * アイテムの削除
+     * @param $index
      */
-    dispose: function () {
-
-        this._super();
+    removeItem: function ($index) {
+        if (ora.checkArrayRange(this._itemList, $index)) return;
+        this._itemList[$index].release();
+        this._itemList.splice($index,1);
+        this._updateItemTag();
     },
 
     /**
-     * ビューの更新
-     * @returns {boolean}
+     * アイテムの全削除
      */
-    refresh: function () {
-        if (!this._super()) return false;
-
-        return true;
+    removeAllItems: function () {
+        for (var i = 0, len = array.length; i < len; i=(i+1)|0) {
+            this._itemList[i].release();
+        }
+        this._itemList = [];
     },
+
+    /*
+     *  Getter / Setter
+     */
+
+    /**
+     * 指定インデックスのアイテムの取得
+     * @param $index
+     * @returns {*}
+     */
+    getItem: function ($index) {
+        if (ora.checkArrayRange(this._itemList, $index)) return null;
+        return this._itemList[$index];
+    },
+
+    /**
+     * アイテムのタグ更新
+     * @private
+     */
+    _updateItemTag: function () {
+        for (var i = 0, len = this._itemList.length; i < len; i=(i+1)|0) {
+            var item = this._itemList[i];
+            item.setTag(i);
+        }
+    },
+    
+    /*
+     *  イベント処理
+     */
+
+    /**
+     * リストアイテムをタップした時の挙動
+     * @param $obj
+     */
+    onTapItem: function ($obj) {
+        var view = predator.getViewObjectByNode($obj, app.DropList);
+        if (!view || view.isLocked() || !view.isEnabled()) return;
+
+        view.lock();
+        view.setCurrentIndex($obj.getTag());
+        view.onTapItem_();
+        if (view.delegate && view.delegate.onTapItem) view.delegate.onTapItem(view);
+        view.unlock();
+    },
+
+    /*
+     *  オーバーライド用関数
+     */
+
+    /**
+     * リストアイテムをタップした時の挙動（インナー）
+     * @protected
+     */
+    onTapItem_: function () {}
+
 });

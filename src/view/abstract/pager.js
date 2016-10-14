@@ -20,30 +20,38 @@ var app = app || {};
 app.Pager = predator.ViewTemplate.extend(/** @lends app.Pager# */{
     _className: "Pager",
 
-    _currentValue: 1,
-    _maxValue: 1,
+    _currentIndex: 1,
+    _maxIndex: 1,
+
+    /*
+     *  制御処理
+     */
 
     /**
      * 前へ
      */
     prev: function () {
-        this.setCurrentValue(this._currentValue-1);
+        this.setCurrentIndex(this._currentIndex-1);
     },
 
     /**
      * 次へ
      */
     next: function () {
-        this.setCurrentValue(this._currentValue+1);
+        this.setCurrentIndex(this._currentIndex+1);
     },
+
+    /*
+     *  Getter / Setter
+     */
 
     /**
      * 最大値の設定
      * @param $value
      */
-    setMaxValue: function ($value) {
-        this._maxValue = $value;
-        this._currentValue = ora.clamp(this._currentValue,0,this._maxValue);
+    setMaxIndex: function ($value) {
+        this._maxIndex = $value;
+        this._currentIndex = ora.clamp(this._currentIndex,0,this._maxIndex);
         this.setDirty(true);
     },
 
@@ -51,25 +59,56 @@ app.Pager = predator.ViewTemplate.extend(/** @lends app.Pager# */{
      * 最大値の取得
      * @returns {number}
      */
-    getMaxValue: function () {
-        return this._maxValue;
+    getMaxIndex: function () {
+        return this._maxIndex;
     },
 
     /**
      * 現在値の設定
      * @param $value
      */
-    setCurrentValue: function ($value) {
-        this._currentValue = ora.clamp($value,0,this._maxValue);
+    setCurrentIndex: function ($value) {
+        if (this._currentIndex == $value) return;
+
+        this._currentIndex = ora.clamp($value,0,this._maxIndex);
         this.setDirty(true);
+        this.onChangeIndex(this);
     },
 
     /**
      * 現在値の取得
      * @returns {number}
      */
-    getCurrentValue: function () {
-        return this._currentValue;
-    }
+    getCurrentIndex: function () {
+        return this._currentIndex;
+    },
+
+    /*
+     *  イベント処理
+     */
+
+    /**
+     * 現在値が変更された時の挙動
+     * @param $obj
+     */
+    onChangeIndex: function ($obj) {
+        var view = predator.getViewObjectByNode($obj, app.CountUp);
+        if (!view || view.isLocked()) return;
+
+        view.lock();
+        view.onChangeIndex_();
+        if (view.delegate && view.delegate.onChangeIndex) view.delegate.onChangeIndex(view);
+        view.unlock();
+    },
+
+    /*
+     *  オーバーライド用関数
+     */
+
+    /**
+     * 現在値が変更された時の挙動（インナー）
+     * @protected
+     */
+    onChangeIndex_: function () {}
 
 });

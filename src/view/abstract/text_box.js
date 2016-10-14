@@ -33,6 +33,8 @@ app.TextBox = predator.ViewTemplate.extend(/** @lends app.TextBox# */{
      */
     setString: function ($text) {
         this._text = $text;
+
+        this.didChangeString(this);
     },
 
     /**
@@ -69,7 +71,7 @@ app.TextBox = predator.ViewTemplate.extend(/** @lends app.TextBox# */{
      */
     onAttachTextbox: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.TextBox);
-        if (!view || view.isLocked()) return;
+        if (!view || view.isLocked() || view.isEnabled()) return;
 
         view.lock();
         view.onAttachTextbox_();
@@ -83,7 +85,7 @@ app.TextBox = predator.ViewTemplate.extend(/** @lends app.TextBox# */{
      */
     onDetachTextbox: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.TextBox);
-        if (!view || view.isLocked()) return;
+        if (!view || view.isLocked() || view.isEnabled()) return;
 
         view.lock();
         view.onDetachTextbox_();
@@ -95,13 +97,13 @@ app.TextBox = predator.ViewTemplate.extend(/** @lends app.TextBox# */{
      * 値が変更された時の挙動
      * @param $obj
      */
-    onChangeString: function ($obj) {
+    didChangeString: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.TextBox);
-        if (!view || view.isLocked()) return;
+        if (!view || view.isLocked() || view.isEnabled()) return;
 
         view.lock();
-        view.onChangeString_();
-        if (view.delegate && view.delegate.onChangeString) view.delegate.onChangeString(view);
+        view.didChangeString_();
+        if (view.delegate && view.delegate.didChangeString) view.delegate.didChangeString(view);
         view.unlock();
     },
 
@@ -125,5 +127,5 @@ app.TextBox = predator.ViewTemplate.extend(/** @lends app.TextBox# */{
      * 値が変更された時の挙動（インナー）
      * @protected
      */
-    onChangeString_: function () {}
+    didChangeString_: function () {}
 });

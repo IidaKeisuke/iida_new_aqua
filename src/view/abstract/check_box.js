@@ -25,16 +25,17 @@ app.CheckBox = predator.ViewTemplate.extend(/** @lends app.CheckBox# */{
      */
 
     /**
-     * ボタンがタップされた時の挙動
+     * チェックボックスがタップされた時の挙動
      * @param $obj
      */
-    onActive: function ($obj) {
+    onTapCheckbox: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.CheckBox);
-        if (!view || view.isLocked() || !view.isEnable()) return;
+        if (!view || view.isLocked() || !view.isEnabled()) return;
 
         view.lock();
-        view.onChangeStatus_();
-        if (view.delegate && view.delegate.onChangeStatus) view.delegate.onChangeStatus(view);
+        view.toggle();
+        view.onTapCheckbox_();
+        if (view.delegate && view.delegate.onTapCheckbox) view.delegate.onTapCheckbox(view);
         view.unlock();
     },
 
@@ -43,8 +44,8 @@ app.CheckBox = predator.ViewTemplate.extend(/** @lends app.CheckBox# */{
      */
 
     /**
-     * フラグが変更された時の挙動（インナー）
+     * チェックボックスがタップされた時の挙動（インナー）
      * @protected
      */
-    onChangeStatus_: function () {}
+    onTapCheckbox_: function () {}
 });

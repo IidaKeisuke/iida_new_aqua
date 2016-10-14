@@ -30,7 +30,7 @@ app.Button = predator.ViewTemplate.extend(/** @lends app.Button# */{
      */
     onTapButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Button);
-        if (!view || view.isLocked() || !view.isEnable()) return;
+        if (!view || view.isLocked() || !view.isEnabled()) return;
 
         view.lock();
         view.onTapButton_();
