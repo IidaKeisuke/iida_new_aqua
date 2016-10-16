@@ -14,11 +14,21 @@ var app = app || {};
  * Buttonクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.Button
  * @extends predator.ViewTemplate
  */
 app.Button = predator.ViewTemplate.extend(/** @lends app.Button# */{
     _className: "Button",
+
+    _json: "blank.json",
+
+    /**
+     * 実行処理
+     */
+    execute: function () {
+        this.onTapButton(this);
+    },
 
     /*
      *  イベント処理
@@ -26,15 +36,19 @@ app.Button = predator.ViewTemplate.extend(/** @lends app.Button# */{
 
     /**
      * ボタンがタップされた時の挙動
+     * @event TapButton
      * @param $obj
      */
     onTapButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Button);
-        if (!view || view.isLocked() || !view.isEnabled()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.onTapButton_();
-        if (view.delegate && view.delegate.onTapButton) view.delegate.onTapButton(view);
+        {
+            view.onTapButton_();
+            var callback = view.getEventCallback("TapButton");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 

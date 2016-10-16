@@ -2,9 +2,9 @@
 ./icon/icon-128.png
 ./icon/icon-512.png
 ./image/logo.png
-./json/blank.json
+./json/adv/data_map.json
 ./json/adv/mess_object.json
 ./json/adv/mess_window.json
 ./json/adv/message_box.json
-./json/adv/data_map.json
+./json/blank.json
 ./json/scene/boot_scene.json

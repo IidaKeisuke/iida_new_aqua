@@ -13,11 +13,14 @@ var app = app || {};
 /**
  * Sceneクラス
  * @class
+ * @abstract
  * @name app.Scene
  * @extends predator.SceneTemplate
  */
 app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
     _className: "Scene",
+
+    _json: "blank.json",
 
     _phase: 0,
 
@@ -71,6 +74,8 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
 
         this._isAlreadyDispose = true;
 
+        app.stopAllAPIRequest();
+
         this.endScenario();
         this.removeAllPanel();
 
@@ -113,6 +118,19 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
      */
     isLocked: function () {
         return (this._lock > 0);
+    },
+
+    /**
+     * 戻るボタン
+     */
+    back: function () {
+        if (this.isLocked()) return;
+
+        if (this._panel.length > 0) {
+            this.popPanel();
+        } else {
+            predator.backScene();
+        }
     },
 
     /**
@@ -169,6 +187,14 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
     },
 
     /**
+     * 現在のパネルを取得
+     * @returns {null}
+     */
+    getCurrentPanel: function () {
+        return (this._panel.length > 0)? this._panel[this._panel.length-1]: null;
+    },
+
+    /**
      * パネルの追加
      * @param {number} $tag タグ
      * @param {function} $class
@@ -185,6 +211,11 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
 
         this.lock();
         var startPos = $pos || app.winPos.center;
+
+        if (this._panel.length > 0) {
+            var lastPanel = this._panel[this._panel.length-1];
+            if (cc.isFunction(lastPanel.setTouchEnabled)) lastPanel.setTouchEnabled(false);
+        }
 
         var panel = new $class();
         panel.setData($data);
@@ -205,16 +236,35 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
             if (cc.isFunction($appearCallback)) $appearCallback();
             this.unlock();
         }
-        app.log("Scene: "+panel._className+"を追加 パネルID:"+this._panel.length-1);
+        app.log("Scene: パネル「"+panel._className+"」を追加 パネルID:"+this._panel.length-1);
     },
 
     /**
      * パネルの除去
+     */
+    popPanel: function () {
+        if (this.isLocked()) {
+            // TODO: キュー処理必要？ 2016/10/15 7:39
+            return;
+        }
+
+        var panel = this._panel.pop();
+        panel.removeFromParent(true);
+        app.log("Scene: パネル「"+panel._className+"」を削除");
+
+        if (this._panel.length > 0) {
+            var lastPanel = this._panel[this._panel.length-1];
+            if (cc.isFunction(lastPanel.setTouchEnabled)) lastPanel.setTouchEnabled(true);
+        }
+    },
+
+    /**
+     * 指定パネルの削除
      * @param {number} $tag
      * @param {function=} $disappearCallback
      * @param {cc.Action=} $action
      */
-    popPanel: function ($tag, $disappearCallback, $action) {
+    removePanel: function ($tag, $disappearCallback, $action) {
         for (var i = 0, len = this._panel.length; i < len; i=(i+1)|0) {
             var panel = this._panel[i];
             var tag = panel.getTag();
@@ -226,11 +276,22 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
                         panel.removeFromParent(true);
                         if (cc.isFunction($disappearCallback)) $disappearCallback();
                         this.unlock();
+
+                        if (this._panel.length > 0) {
+                            var lastPanel = this._panel[this._panel.length-1];
+                            if (cc.isFunction(lastPanel.setTouchEnabled)) lastPanel.setTouchEnabled(true);
+                        }
+
                     }, this)));
                 } else {
                     panel.removeFromParent(true);
                     if (cc.isFunction($disappearCallback)) $disappearCallback();
                     this.unlock();
+
+                    if (this._panel.length > 0) {
+                        var lastPanel = this._panel[this._panel.length-1];
+                        if (cc.isFunction(lastPanel.setTouchEnabled)) lastPanel.setTouchEnabled(true);
+                    }
                 }
                 app.log("Scene: "+panel._className+"を削除 パネルID:"+i);
                 return;

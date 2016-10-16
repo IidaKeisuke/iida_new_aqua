@@ -14,42 +14,15 @@ var app = app || {};
  * ScrollViewクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.ScrollView
  * @extends predator.ViewTemplate
  */
 app.ScrollView = predator.ViewTemplate.extend(/** @lends app.ScrollView# */{
     _className: "ScrollView",
 
-    _json: "",
-    _preload: [],
+    _json: "blank.json",
 
-    /**
-     * 初期化処理
-     * @param {Object|null} attr
-     * @param {Object} model
-     */
-    initialize: function (attr, model) {
-        this._super(attr, model);
-
-    },
-
-    /**
-     * 破棄処理
-     */
-    dispose: function () {
-
-        this._super();
-    },
-
-    /**
-     * ビューの更新
-     * @returns {boolean}
-     */
-    refresh: function () {
-        if (!this._super()) return false;
-
-        return true;
-    },
 });
 
 /**

@@ -11,6 +11,8 @@
 var app = app || {};
 app.API = app.API || {};
 
+app.API.taskList = [];
+
 /**
  * API送信
  * @param{string} $url
@@ -38,7 +40,7 @@ app.sendAPI = function ($url, $param, $apiParser, $callback) {
         $param.oauth_nonce = debug.oauth_nonce;
     }
 
-    predator.requestAPI(type, url, $param, function (error, obj) {
+    var xhr = predator.requestAPI(type, url, $param, function (request, error, obj) {
         var result;
         if (error) {
             app.log("--- 通信エラー ---");
@@ -81,9 +83,39 @@ app.sendAPI = function ($url, $param, $apiParser, $callback) {
         body.timestamp = result.time;
 
         if (cc.isFunction($callback)) $callback(result.code, body);
+
+        for (var i = app.API.taskList.length-1; i >= 0; i=(i-1)|0) {
+            var task = app.API.taskList[i];
+
+            if (task === request) {
+                app.API.taskList.splice(i,1);
+                break;
+            }
+        }
     }.bind(this), true);
+
+    app.API.taskList.push(xhr);
 };
 
+/**
+ * 全てのAPIの停止
+ */
+app.stopAllAPIRequest = function () {
+    for (var i = 0, len = app.API.taskList.length; i < len; i=(i+1)|0) {
+        var task = app.API.taskList[i];
+        task.abort();
+    }
+    app.API.taskList = [];
+};
+
+/**
+ * デフォルトのJSONパーサー
+ * @param $code
+ * @param $body
+ * @param $info
+ * @param $time
+ * @returns {{}}
+ */
 app.API.defaultParser = function ($code, $body, $info, $time) {
     return ($code == 0)? $body: {};
 };

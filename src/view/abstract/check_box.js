@@ -14,11 +14,21 @@ var app = app || {};
  * CheckBoxクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.CheckBox
  * @extends predator.ViewTemplate
  */
 app.CheckBox = predator.ViewTemplate.extend(/** @lends app.CheckBox# */{
     _className: "CheckBox",
+
+    _json: "blank.json",
+
+    /**
+     * 実行処理
+     */
+    execute: function () {
+        this.onTapCheckbox(this);
+    },
 
     /*
      *  イベント処理
@@ -26,16 +36,20 @@ app.CheckBox = predator.ViewTemplate.extend(/** @lends app.CheckBox# */{
 
     /**
      * チェックボックスがタップされた時の挙動
+     * @event TapCheckbox
      * @param $obj
      */
     onTapCheckbox: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.CheckBox);
-        if (!view || view.isLocked() || !view.isEnabled()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.toggle();
-        view.onTapCheckbox_();
-        if (view.delegate && view.delegate.onTapCheckbox) view.delegate.onTapCheckbox(view);
+        {
+            view.toggle();
+            view.onTapCheckbox_();
+            var callback = view.getEventCallback("TapCheckbox");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 

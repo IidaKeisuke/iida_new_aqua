@@ -24,11 +24,14 @@ app.DialogType = {
  * Dialogクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.Dialog
  * @extends predator.ViewTemplate
  */
 app.Dialog = predator.ViewTemplate.extend(/** @lends app.Dialog# */{
     _className: "Dialog",
+
+    _json: "blank.json",
 
     _type: app.DialogType.OK,
 
@@ -38,43 +41,55 @@ app.Dialog = predator.ViewTemplate.extend(/** @lends app.Dialog# */{
 
     /**
      * OKボタンがタップされた時の挙動
+     * @event TapOKButton
      * @param $obj
      */
     onTapOKButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Dialog);
-        if (!view || view.isLocked()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.onTapOKButton_();
-        if (view.delegate && view.delegate.onTapOKButton) view.delegate.onTapOKButton(view);
+        {
+            view.onTapOKButton_();
+            var callback = view.getEventCallback("TapOKButton");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 
     /**
      * NGボタンがタップされた時の挙動
+     * @event TapNGButton
      * @param $obj
      */
     onTapNGButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Dialog);
-        if (!view || view.isLocked()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.onTapNGButton_();
-        if (view.delegate && view.delegate.onTapNGButton) view.delegate.onTapNGButton(view);
+        {
+            view.onTapNGButton_();
+            var callback = view.getEventCallback("TapNGButton");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 
     /**
      * 閉じるボタンがタップされた時の挙動
+     * @event TapCloseButton
      * @param $obj
      */
     onTapCloseButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Dialog);
-        if (!view || view.isLocked()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.onTapCloseButton_();
-        if (view.delegate && view.delegate.onTapCloseButton) view.delegate.onTapCloseButton(view);
+        {
+            view.onTapCloseButton_();
+            var callback = view.getEventCallback("TapCloseButton");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 

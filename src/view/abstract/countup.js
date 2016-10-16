@@ -14,73 +14,33 @@ var app = app || {};
  * CountUpクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.CountUp
  * @extends predator.ViewTemplate
  */
 app.CountUp = predator.ViewTemplate.extend(/** @lends app.CountUp# */{
     _className: "CountUp",
 
-    _currentValue: 0,
+    _json: "blank.json",
+
     _minValue: 0,
-    _maxValue: 1,
     _step: 1,
+
+    _upButton: null,
+    _downButton: null,
+
+    initialize: function (attr, model) {
+        this._super(attr, model);
+
+        this._upButton = model["btn_up"];
+        this._upButton.setEventCallback("TapButton", this.onTapUpButton, this);
+        this._downButton = model["btn_down"];
+        this._downButton.setEventCallback("TapButton", this.onTapDownButton, this);
+    },
 
     /*
      *  Getter / Setter
      */
-
-    /**
-     * 現在地の設定
-     * @param $value
-     */
-    setCurrentValue: function ($value) {
-        this._currentValue = ora.clamp($value,this._minValue,this._maxValue);
-        this.setDirty(true);
-    },
-
-    /**
-     * 現在地の取得
-     * @returns {number}
-     */
-    getCurrentValue: function () {
-        return this._currentValue;
-    },
-
-    /**
-     * 最小値の設定
-     * @param $value
-     */
-    setMinValue: function ($value) {
-        this._minValue = $value;
-        this.setCurrentValue(this._currentValue);
-        this.setDirty(true);
-    },
-
-    /**
-     * 最大値の取得
-     * @returns {number}
-     */
-    getMinValue: function () {
-        return this._minValue;
-    },
-
-    /**
-     * 最大値の設定
-     * @param $value
-     */
-    setMaxValue: function ($value) {
-        this._maxValue = $value;
-        this.setCurrentValue(this._currentValue);
-        this.setDirty(true);
-    },
-
-    /**
-     * 最大値の取得
-     * @returns {number}
-     */
-    getMaxValue: function () {
-        return this._maxValue;
-    },
 
     /**
      * ステップの設定
@@ -101,14 +61,14 @@ app.CountUp = predator.ViewTemplate.extend(/** @lends app.CountUp# */{
      * カウントアップ
      */
     countUp: function () {
-        this.setCurrentValue(this._currentValue+this._step);
+        this.setValue(this._currentValue+this._step);
     },
 
     /**
      * カウントダウン
      */
     countDown: function () {
-        this.setCurrentValue(this._currentValue-this._step);
+        this.setValue(this._currentValue-this._step);
     },
 
     /*
@@ -116,46 +76,40 @@ app.CountUp = predator.ViewTemplate.extend(/** @lends app.CountUp# */{
      */
 
     /**
-     * 値が変更された時の挙動
+     * UPボタンがタップされた時の挙動
      * @param $obj
-     */
-    didChangeValue: function ($obj) {
-        var view = predator.getViewObjectByNode($obj, app.CountUp);
-        if (!view || view.isLocked()) return;
-
-        view.lock();
-        view.didChangeValue_();
-        if (view.delegate && view.delegate.didChangeValue) view.delegate.didChangeValue(view);
-        view.unlock();
-    },
-
-    /**
-     * ボタンがタップされた時の挙動
-     * @param $obj
+     * @event TapUpButton
      */
     onTapUpButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.CountUp);
-        if (!view || view.isLocked() || !view.isEnabled()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.countUp();
-        view.onTapUpButton_();
-        if (view.delegate && view.delegate.onTapUpButton) view.delegate.onTapUpButton(view);
+        {
+            view.countUp();
+            view.onTapUpButton_();
+            var callback = view.getEventCallback("TapUpButton");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 
     /**
-     * ボタンがタップされた時の挙動
+     * DOWNボタンがタップされた時の挙動
+     * @event TapDownButton
      * @param $obj
      */
     onTapDownButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.CountUp);
-        if (!view || view.isLocked() || !view.isEnabled()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.countDown();
-        view.onTapDownButton_();
-        if (view.delegate && view.delegate.onTapDownButton) view.delegate.onTapDownButton(view);
+        {
+            view.countDown();
+            view.onTapDownButton_();
+            var callback = view.getEventCallback("TapDownButton");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 
@@ -164,20 +118,14 @@ app.CountUp = predator.ViewTemplate.extend(/** @lends app.CountUp# */{
      */
 
     /**
-     * 値が変更された時の挙動（インナー）
-     * @protected
-     */
-    didChangeValue_: function () {},
-
-    /**
      * ボタンがタップされた時の挙動（インナー）
-     * @param $obj
+     * @protected
      */
     onTapUpButton_: function () {},
 
     /**
      * ボタンがタップされた時の挙動（インナー）
-     * @param $obj
+     * @protected
      */
     onTapDownButton_: function () {}
 });

@@ -14,11 +14,14 @@ var app = app || {};
  * ItemListクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.ItemList
  * @extends predator.ViewTemplate
  */
 app.ItemList = predator.ViewTemplate.extend(/** @lends app.ItemList# */{
     _className: "ItemList",
+
+    _json: "blank.json",
 
     _itemList: null,
 
@@ -91,16 +94,21 @@ app.ItemList = predator.ViewTemplate.extend(/** @lends app.ItemList# */{
 
     /**
      * リストアイテムをタップした時の挙動
+     * @event TapItem
      * @param $obj
      */
     onTapItem: function ($obj) {
-        var view = predator.getViewObjectByNode($obj, app.DropList);
-        if (!view || view.isLocked() || !view.isEnabled()) return;
+        var view = predator.getViewObjectByNode($obj, app.ItemList);
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.setCurrentIndex($obj.getTag());
-        view.onTapItem_();
-        if (view.delegate && view.delegate.onTapItem) view.delegate.onTapItem(view);
+        {
+            var index = $obj.getTag();
+            view.setCurrentIndex(index);
+            view.onTapItem_(index);
+            var callback = view.getEventCallback("TapItem");
+            if (callback) callback.func.call(callback.target, view, index);
+        }
         view.unlock();
     },
 
@@ -112,6 +120,6 @@ app.ItemList = predator.ViewTemplate.extend(/** @lends app.ItemList# */{
      * リストアイテムをタップした時の挙動（インナー）
      * @protected
      */
-    onTapItem_: function () {}
+    onTapItem_: function ($index) {}
 
 });

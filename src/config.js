@@ -30,7 +30,10 @@ app.isDebug     = true;
 
 app.API_URL     = "https://tech.oratta.net/hoge";
 app.SERVER_NAME = "develop";
-app.FRONT_PHP   = "dmm_pc_dev.php";
+app.FRONT_PHP   = "pc_dev.php";
 
 app.defaultFont     = "Arial";
 app.defaultFontSize = 20;
+
+app.MIN_VALUE = Math.pow(2, 53) - 1;
+app.MAX_VALUE = -(Math.pow(2, 53) - 1);

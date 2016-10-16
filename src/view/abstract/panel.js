@@ -14,10 +14,13 @@ var app = app || {};
  * Panelクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.Panel
  * @extends predator.ViewTemplate
  */
 app.Panel = predator.ViewTemplate.extend(/** @lends app.Panel# */{
     _className: "Panel",
+
+    _json: "blank.json"
 
 });

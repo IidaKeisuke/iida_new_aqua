@@ -1,1 +1,78 @@
-{"chunk":{"ID":"ModelData","type":"scene","title":"BOOT SCENE","url":"boot_scene.json","callLayer":"app.BootScene"},"preload":[],"user":{"show":true},"sprite":{"show":true,"background":{"url":"res/image/logo.png","color":{"r":255,"g":255,"b":255,"a":255},"anchor":{"x":"center","y":"center"},"anchor_chr":{"x":"center","y":"center"},"position":{"x":0,"y":0,"z":0},"scale":{"x":1,"y":1},"rotate":0,"flip":{"x":false,"y":false},"parent":"","show":true,"awake":true,"public":false,"popup":{"type":"NONE","time":0.08},"scale9":false,"contentSize":{"width":1136,"height":640},"outside":{"x":0,"y":0,"width":1136,"height":640},"inside":{"x":10,"y":10,"width":1116,"height":620},"touch":{"control":[{"type":"TAP","callback":""}]},"action":[{"trigger":"TAP","time":0,"sequence":[{"flip":{"x":false,"y":true}}]}]}}}
+{
+  "chunk": {
+    "ID": "ModelData",
+    "type": "scene",
+    "title": "BOOT SCENE",
+    "url": "boot_scene.json",
+    "callLayer": "app.BootScene"
+  },
+  "preload": [],
+  "user": {
+    "show": true
+  },
+  "sprite": {
+    "show": true,
+    "background": {
+      "url": "res/image/logo.png",
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "anchor": {
+        "x": "center",
+        "y": "center"
+      },
+      "anchor_chr": {
+        "x": "center",
+        "y": "center"
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "flip": {
+        "x": false,
+        "y": false
+      },
+      "parent": "",
+      "show": true,
+      "awake": true,
+      "public": false,
+      "popup": {
+        "type": "NONE",
+        "time": 0.08
+      },
+      "scale9": false,
+      "contentSize": {
+        "width": 1136,
+        "height": 640
+      },
+      "outside": {
+        "x": 0,
+        "y": 0,
+        "width": 1136,
+        "height": 640
+      },
+      "inside": {
+        "x": 10,
+        "y": 10,
+        "width": 1116,
+        "height": 620
+      },
+      "touch": {
+        "control": [
+        ]
+      },
+      "action": [
+      ]
+    }
+  }
+}

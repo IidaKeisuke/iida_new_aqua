@@ -14,6 +14,7 @@ var app = app || {};
  * Adventureクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.Adventure
  * @extends predator.ViewTemplate
  */
@@ -39,6 +40,11 @@ app.Adventure = predator.ViewTemplate.extend(/** @lends app.Adventure# */{
     _pageFeedSpeed: 0.2,
     _pageFeedArrowAlias: "spr_arrow",
 
+    _onActionEnded: "app.Adventure.onActionEnded",
+    _onInitializeEnded: "app.Adventure.onActionEnded",
+    _onDisposeEnded: "app.Adventure.onActionEnded",
+    _onTapMessageWindow: "app.Adventure.onTapMessageWindow",
+
     /**
      * 初期化処理
      * @param {Object|null} attr
@@ -61,10 +67,10 @@ app.Adventure = predator.ViewTemplate.extend(/** @lends app.Adventure# */{
                 pageFeedType: this._pageFeedType,
                 pageFeedSpeed: this._pageFeedSpeed,
                 pageFeedArrowAlias: this._pageFeedArrowAlias,
-                onActionEnded: "app.AdventurePanel.onActionEnded",
-                onInitializeEnded: "app.AdventurePanel.onActionEnded",
-                onDisposeEnded: "app.AdventurePanel.onActionEnded",
-                onTapMessageWindow: "app.AdventurePanel.onTapMessageWindow"
+                onActionEnded: this._pageFeedArrowAlias,
+                onInitializeEnded: this._pageFeedArrowAlias,
+                onDisposeEnded: this._pageFeedArrowAlias,
+                onTapMessageWindow: this._pageFeedArrowAlias
             }
         );
 
@@ -83,14 +89,9 @@ app.Adventure = predator.ViewTemplate.extend(/** @lends app.Adventure# */{
         this._super();
     },
 
-    setScript: function ($script) {
-        this._script = $script;
-    },
-
-    isRunning: function () {
-        return this._isRunning;
-    },
-
+    /**
+     * スクリプトの実行
+     */
     runScript: function () {
         if (this._script == "") return;
 
@@ -103,16 +104,25 @@ app.Adventure = predator.ViewTemplate.extend(/** @lends app.Adventure# */{
         this._messageBox.setMessage(this._script);
     },
 
+    /**
+     * スクリプトの一時停止
+     */
     pauseScript: function () {
         if (!this._messageBox || this._messageBox.isPause()) return;
         this._messageBox.pauseMessage();
     },
 
+    /**
+     * スクリプトの再開
+     */
     resumeScript: function () {
         if (!this._messageBox || !this._messageBox.isPause()) return;
         this._messageBox.resumeMessage();
     },
 
+    /**
+     * スクリプトの停止
+     */
     exitScript: function () {
         if (!this._messageBox) return;
         this._isRunning = false;
@@ -120,63 +130,222 @@ app.Adventure = predator.ViewTemplate.extend(/** @lends app.Adventure# */{
         this._messageBox.deleteMessage();
     },
 
+    /*
+     *  Getter / Setter
+     */
+
+    /**
+     * スクリプトの設定
+     * @param $script
+     */
+    setScript: function ($script) {
+        this._script = $script;
+    },
+
+    /**
+     * 実行中フラグの確認
+     * @returns {boolean}
+     */
+    isRunning: function () {
+        return this._isRunning;
+    },
+
+    /**
+     * 自動メッセージ送りの設定
+     * @param $flag
+     */
+    setMessageAuto: function ($flag) {
+        this._messageBox.messageAuto = $flag;
+    },
+
+    /**
+     * 自動メッセージ送りの取得
+     * @returns {boolean|*}
+     */
+    getMessageAuto: function () {
+        return this._messageBox.messageAuto;
+    },
+
+    /**
+     * メッセージスキップの設定
+     * @param $flag
+     */
+    setMessageSkip: function ($flag) {
+        this._messageBox.messageSkip = $flag;
+    },
+
+    /**
+     * メッセージスキップの取得
+     * @returns {boolean|*}
+     */
+    getMessageSkip: function () {
+        return this._messageBox.messageSkip;
+    },
+
+    /**
+     * メッセージログの取得
+     * @returns {*|String}
+     */
+    getMessageLog: function () {
+        return this._messageBox.getMessage();
+    },
+
+    /**
+     * メッセージログの行数取得
+     * @returns {*}
+     */
+    getMessageLineCount: function () {
+        return this._messageBox.getMessageLineCount();
+    },
+
+    /**
+     * ページ送り待ちフラグの確認
+     * @returns {*}
+     */
+    isPageFeedWait: function () {
+        return this._messageBox.isPageFeedWait();
+    },
+
+    /**
+     * ページ送り領域の設定
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
     setPageFeed: function (x,y,width,height) {
         this._messageBox.setPageFeed(x,y,width,height);
     },
 
+    /*
+     *  イベント処理
+     */
+
+    /**
+     * メッセージウィンドウをタップした時の処理
+     * @event TapMessageWindow
+     * @param $obj
+     */
     onTapMessageWindow: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Adventure);
-        if (!view || view.isLocked() || !view.isEnable()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.onTapMessageWindow_();
-        if (view.delegate && view.delegate.onTapMessageWindow) view.delegate.onTapMessageWindow(view);
+        {
+            view.onTapMessageWindow_();
+            var callback = view.getEventCallback("TapMessageWindow");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 
+    /**
+     * コマンド行動終了時の処理
+     * @event ActionEnded
+     * @param $obj
+     */
     onActionEnded: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Adventure);
-        if (!view || view.isLocked() || !view.isEnable()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.onActionEnded_();
-        if (view.delegate && view.delegate.onActionEnded) view.delegate.onActionEnded(view);
+        {
+            view.onActionEnded_();
+            var callback = view.getEventCallback("ActionEnded");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 
+    /**
+     * スキップボタンタップ時の処理
+     * @event TapSkipButton
+     * @param $obj
+     */
     onTapSkipButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Adventure);
-        if (!view || view.isLocked() || !view.isEnable()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.onTapSkipButton_();
-        if (view.delegate && view.delegate.onTapSkipButton) view.delegate.onTapSkipButton(view);
+        {
+            view.setMessageSkip(!view.getMessageSkip());
+            view.onTapSkipButton_();
+            var callback = view.getEventCallback("TapSkipButton");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 
+    /**
+     * オートボタンタップ時の処理
+     * @event TapAutoButton
+     * @param $obj
+     */
     onTapAutoButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Adventure);
-        if (!view || view.isLocked() || !view.isEnable()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.onTapAutoButton_();
-        if (view.delegate && view.delegate.onTapAutoButton) view.delegate.onTapAutoButton(view);
+        {
+            view.setMessageAuto(!view.getMessageAuto());
+            view.onTapAutoButton_();
+            var callback = view.getEventCallback("TapAutoButton");
+            if (callback) callback.func.call(callback.target, view);
+        }
         view.unlock();
     },
 
+    /**
+     * ログボタンタップ時の処理
+     * @event TapLogButton
+     * @param $obj
+     */
     onTapLogButton: function ($obj) {
         var view = predator.getViewObjectByNode($obj, app.Adventure);
-        if (!view || view.isLocked() || !view.isEnable()) return;
+        if (!view || !view.checkEventCondition({locked:false, enabled:true, visible:true})) return;
 
         view.lock();
-        view.onTapLogButton_();
-        if (view.delegate && view.delegate.onTapLogButton) view.delegate.onTapLogButton(view);
+        {
+            var line = view.getMessageLineCount();
+            var message = view.getMessageLog();
+            view.onTapLogButton_(line,message);
+            var callback = view.getEventCallback("TapLogButton");
+            if (callback) callback.func.call(callback.target, view, line, message);
+        }
         view.unlock();
     },
 
+    /*
+     *  オーバーライド用関数
+     */
+
+    /**
+     * メッセージウィンドウをタップした時の処理
+     * @protected
+     */
     onTapMessageWindow_: function () {},
+
+    /**
+     * コマンド行動終了時の処理
+     * @protected
+     */
     onActionEnded_: function () {},
+
+    /**
+     * スキップボタンタップ時の処理
+     * @protected
+     */
     onTapSkipButton_: function () {},
+
+    /**
+     * オートボタンタップ時の処理
+     * @protected
+     */
     onTapAutoButton_: function () {},
-    onTapLogButton_: function () {}
+
+    /**
+     * ログボタンタップ時の処理
+     * @protected
+     */
+    onTapLogButton_: function ($lineCount, $messageArray) {}
 });

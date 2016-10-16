@@ -14,14 +14,28 @@ var app = app || {};
  * Textboxクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.TextBox
  * @extends predator.ViewTemplate
  */
 app.TextBox = predator.ViewTemplate.extend(/** @lends app.TextBox# */{
     _className: "TextBox",
 
+    _json: "blank.json",
+
     _text: "",
     _placeholder: "",
+
+    /*
+     *  制御処理
+     */
+
+    /**
+     * 実行処理
+     */
+    execute: function () {
+
+    },
 
     /*
      *  Getter / Setter
@@ -62,49 +76,34 @@ app.TextBox = predator.ViewTemplate.extend(/** @lends app.TextBox# */{
     },
 
     /*
-     *  イベント処理
+     *  デリゲート処理
      */
 
     /**
      * テキストボックスがアクティブになった時の処理
-     * @param $obj
+     * @delegate didAttachTextbox
      */
-    onAttachTextbox: function ($obj) {
-        var view = predator.getViewObjectByNode($obj, app.TextBox);
-        if (!view || view.isLocked() || view.isEnabled()) return;
-
-        view.lock();
-        view.onAttachTextbox_();
-        if (view.delegate && view.delegate.onAttachTextbox) view.delegate.onAttachTextbox(view);
-        view.unlock();
+    didAttachTextbox: function () {
+        this.didAttachTextbox_();
+        if (this.delegate && this.delegate.didAttachTextbox) this.delegate.didAttachTextbox(this);
     },
 
     /**
      * テキストボックスが非アクティブになった時の処理
-     * @param $obj
+     * @delegate didDetachTextbox
      */
-    onDetachTextbox: function ($obj) {
-        var view = predator.getViewObjectByNode($obj, app.TextBox);
-        if (!view || view.isLocked() || view.isEnabled()) return;
-
-        view.lock();
-        view.onDetachTextbox_();
-        if (view.delegate && view.delegate.onDetachTextbox) view.delegate.onDetachTextbox(view);
-        view.unlock();
+    didDetachTextbox: function () {
+        this.didDetachTextbox_();
+        if (this.delegate && this.delegate.didDetachTextbox) this.delegate.didDetachTextbox(this);
     },
 
     /**
      * 値が変更された時の挙動
-     * @param $obj
+     * @delegate didChangeString
      */
-    didChangeString: function ($obj) {
-        var view = predator.getViewObjectByNode($obj, app.TextBox);
-        if (!view || view.isLocked() || view.isEnabled()) return;
-
-        view.lock();
-        view.didChangeString_();
-        if (view.delegate && view.delegate.didChangeString) view.delegate.didChangeString(view);
-        view.unlock();
+    didChangeString: function () {
+        this.didChangeString_();
+        if (this.delegate && this.delegate.didChangeString) this.delegate.didChangeString(this);
     },
 
     /*
@@ -115,13 +114,13 @@ app.TextBox = predator.ViewTemplate.extend(/** @lends app.TextBox# */{
      * テキストボックスがアクティブになった時の処理（インナー）
      * @protected
      */
-    onAttachTextbox_: function () {},
+    didAttachTextbox_: function () {},
 
     /**
      * テキストボックスが非アクティブになった時の処理（インナー）
      * @protected
      */
-    onDetachTextbox_: function () {},
+    didDetachTextbox_: function () {},
 
     /**
      * 値が変更された時の挙動（インナー）

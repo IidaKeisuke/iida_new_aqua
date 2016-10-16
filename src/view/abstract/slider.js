@@ -14,63 +14,14 @@ var app = app || {};
  * Sliderクラス
  * setData: {}
  * @class
+ * @abstract
  * @name app.Slider
  * @extends predator.ViewTemplate
  */
 app.Slider = predator.ViewTemplate.extend(/** @lends app.Slider# */{
     _className: "Slider",
 
-    _value: 0,
+    _json: "blank.json",
 
-    /*
-     *  Getter / Setter
-     */
 
-    /**
-     * 値の設定
-     * @param $value
-     */
-    setValue: function ($value) {
-        if (this._value == $value) return;
-        
-        this._value = ora.clamp($value,0,100);
-        this.setDirty(true);
-        this.didChangeValue(this);
-    },
-
-    /**
-     * 値の取得
-     * @returns {number}
-     */
-    getValue: function () {
-        return this._value;
-    },
-
-    /*
-     *  イベント処理
-     */
-
-    /**
-     * 値が変更された時の挙動
-     * @param $obj
-     */
-    didChangeValue: function ($obj) {
-        var view = predator.getViewObjectByNode($obj, app.Slider);
-        if (!view || view.isLocked()) return;
-
-        view.lock();
-        view.didChangeValue_();
-        if (view.delegate && view.delegate.didChangeValue) view.delegate.didChangeValue(view);
-        view.unlock();
-    },
-
-    /*
-     *  オーバーライド用関数
-     */
-
-    /**
-     * 値が変更された時の挙動（インナー）
-     * @protected
-     */
-    didChangeValue_: function () {}
 });
