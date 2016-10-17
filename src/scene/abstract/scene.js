@@ -29,7 +29,8 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
 
     _panel: null,
 
-    _selectedView: null,
+    _selectableViewList: null,
+    _selectedIndex: -1,
     _view: null,
 
     /**
@@ -40,6 +41,7 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
         if (!this._super(attr)) return false;
 
         this._panel = [];
+        this._selectableViewList = [];
 
         return true;
     },
@@ -119,6 +121,61 @@ app.Scene = predator.SceneTemplate.extend(/** @lends app.Scene# */{
     isLocked: function () {
         return (this._lock > 0);
     },
+
+    /**
+     * 選択中のビュー取得
+     * @returns {app.Scene}
+     */
+    getSelectedView: function () {
+        if (this._selectedIndex < 0 || this._selectableViewList.length == 0) return null;
+
+        if (this._selectedIndex >= this._selectableViewList.length) {
+            this.updateSelectableViewList();
+            return null;
+        } else {
+            var view = this._selectableViewList[this._selectedIndex];
+            return view.node;
+        }
+    },
+
+    /**
+     * 選択可能ビューのリスト更新
+     */
+    updateSelectableViewList: function () {
+        this.lock();
+        this._selectedIndex = -1;
+        this._selectableViewList = [];
+
+        var root = predator.getCurrentScene();
+
+        ora.executeFunctionForAllChildren(root,
+            function (node) {
+                if (!node || !node.isSelectable || !node.isSelectable()) return;
+                var priority = node.getSelectPriority();
+                this._selectableViewList.push({node:node,priority:priority});
+            }.bind(this),
+            function () {
+                if (this._selectableViewList.length > 0) {
+                    this._selectableViewList.sort(function (a,b) {
+                        // 優先度で降順ソート
+                        if (a.getSelectPriority() > b.getSelectPriority()) {
+                            return -1;
+                        } else if (a.getSelectPriority() < b.getSelectPriority()) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    });
+                }
+                this.unlock();
+            }.bind(this)
+        );
+    },
+
+    /**
+     * 実行処理
+     */
+    execute: function () {},
 
     /**
      * 戻るボタン
